@@ -11,8 +11,15 @@ def main():
     # Initialize clock and dt
     clock = pygame.time.Clock()
     dt = 0
-    # Initialize player
+
+    # Initialize groups
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    # Add Player instances to groups
+    Player.containers = (updatable, drawable)
+     # Initialize player
     player =  Player(x=SCREEN_WIDTH/2, y=SCREEN_HEIGHT/2)
+
     # Game loop
     while True:
         for event in pygame.event.get():
@@ -20,9 +27,10 @@ def main():
                 pygame.quit()
                 return
         screen.fill((0, 0, 0))
-        # Render player
-        player.update(dt)
-        player.draw(screen)
+        # Render using groups
+        updatable.update(dt)
+        for item in drawable:
+            item.draw(screen)
         pygame.display.flip()
         dt = clock.tick(60) / 1000  # Limit to 60 FPS and get delta time
 
