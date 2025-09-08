@@ -34,6 +34,12 @@ def main():
         screen.fill((0, 0, 0))
         # Render using groups
         updatable.update(dt)
+        # Check for collisions between player and asteroids
+        for asteroid in asteroids:
+            if player.is_colliding(asteroid):
+                print("Game over!")
+                pygame.quit()
+                return
         for item in drawable:
             item.draw(screen)
         pygame.display.flip()
